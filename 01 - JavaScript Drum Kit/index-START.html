@@ -6,8 +6,6 @@
   <link rel="stylesheet" href="style.css">
 </head>
 <body>
-
-
   <div class="keys">
     <div data-key="65" class="key">
       <kbd>A</kbd>
@@ -49,8 +47,6 @@
 
   <audio data-key="65" src="sounds/clap.wav"></audio>
   <audio data-key="83" src="sounds/hihat.wav"></audio>
-
-  
   <audio data-key="68" src="sounds/kick.wav"></audio>
   <audio data-key="70" src="sounds/openhat.wav"></audio>
   <audio data-key="71" src="sounds/boom.wav"></audio>
@@ -62,11 +58,19 @@
 <script>
   window.addEventListener('keydown', (e) => {
     e.preventDefault();
-    const keycode = e.keyCode;
-    const key = document.querySelector('div.keys div[data-key='${keycode}']');
-    key
+    let keycode = e.keyCode;
+    const key = document.querySelector(`.key[data-key='${keycode}']`);
+    const audio = document.querySelector(`audio[data-key='${keycode}']`);
 
+    if (!audio) return;
+    audio.currentTime = 0;
+    audio.play();
+    key.className += ' playing';
+  });
 
+  window.addEventListener('keyup', (e) => {
+    e.preventDefault();
+    document.querySelector(`.key[data-key='${e.keyCode}']`).classList.remove('playing');
   });
 </script>
 
