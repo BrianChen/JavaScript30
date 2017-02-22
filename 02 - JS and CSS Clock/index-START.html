@@ -66,8 +66,20 @@
 
   <script>
     function setDate() {
-      let seconds = new Date().getSeconds();
-      console.log(seconds);
+      let currentTime = new Date();
+      let seconds = currentTime.getSeconds();
+      let secondHand = document.querySelector('.second-hand');
+      secondHand.style.transform = `rotate(${seconds * 6 + 90}deg)`;
+
+      let min = currentTime.getMinutes();
+      let minHand = document.querySelector('.min-hand');
+      minHand.style.transform = `rotate(${min * 6 + 90}deg)`;
+
+      let hour = currentTime.getHours();
+      let hourHand = document.querySelector('.hour-hand');
+      hourHand.style.transform = `rotate(${hour * 30 + 90}deg)`;
+
+      console.log(`${hour}:${min}:${seconds}`);
     }
 
     setInterval(setDate, 1000);
