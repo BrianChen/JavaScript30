@@ -104,6 +104,58 @@
   </div>
 
 <script>
+  let inputArray = document.querySelectorAll('.item input');
+  let shifted = false;
+  let lastChecked;
+
+  for (let i = 0; i < inputArray.length; i++) {
+    inputArray[i].onclick = checkClick;
+    inputArray[i].number = i+1;
+  }
+
+  //shift only works for checking not unchecking
+
+  document.addEventListener('keydown', checkShift.bind(this, 'down'));
+  document.addEventListener('keyup', checkShift.bind(this, 'up'));
+
+  function checkShift(attr, e) {
+    e.preventDefault();
+    if (e.keyCode == 16) {
+      if (attr == 'down') {
+        shifted = true;
+      } else if (attr == 'up') {
+        shifted = false;
+      }
+    }
+  }
+
+  function checkClick() {
+    if (shifted) {
+      if (lastChecked) {
+        let startIndex = lastChecked.number
+        let endIndex = this.number;
+
+        if (startIndex > endIndex) {
+          [startIndex, endIndex] = [endIndex, startIndex];
+        } else if (startIndex == endIndex) {
+          return;
+        }
+        checkBetween(startIndex, endIndex);
+      } else {
+        let startIndex = this.number;
+        let endIndex = inputArray.length;
+        checkBetween(startIndex, endIndex);
+      }
+    }
+    lastChecked = this;
+  }
+
+  function checkBetween(start, end) {
+    for (let i = start; i < end; i++) {
+      inputArray[i].checked = true;
+    }
+  }
+
 </script>
 </body>
 </html>
